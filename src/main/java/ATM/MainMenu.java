@@ -53,7 +53,8 @@ public class MainMenu {
             case 5:
                 //call Exit Method
 //                    ExitClass.deposit(clientNum);
-                System.out.println("ExitClass.deposit(clientNum)");
+                Exit.exit(clientNum);
+                //System.out.println("ExitClass.deposit(clientNum)");
                 break;
             default:
                 System.out.println("Wrong input, please try again");

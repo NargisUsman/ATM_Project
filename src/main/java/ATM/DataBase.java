@@ -11,7 +11,8 @@ import java.io.IOException;
 
 public class DataBase {
 
-    private final static String path = "/Users/ray/Documents/git/ATM_Project/src/main/DataBase/ClientDataBase.xlsx";
+    //private final static String path = "/Users/ray/Documents/git/ATM_Project/src/main/DataBase/ClientDataBase.xlsx";
+    private final static String path = "./src/main/DataBase/ClientDataBase.xlsx";
 
     public static String readExcelFile(int row, int column) {
 
@@ -56,7 +57,7 @@ public class DataBase {
             XSSFSheet sh1 = wb.getSheetAt(0);                    // Access the worksheet, so that we can update/modify it.
             Cell cell = sh1.getRow(row).getCell(column);               // Declare a Cell object and access the given cell and given row to update the value
             cell.setCellValue(strVal);                                 // Get current cell value value and overwrite the value
-            wb.close();                                                // Close the InputStream
+            fis.close();                                                // Close the InputStream
 
             FileOutputStream output_file = new FileOutputStream(src);  // Open FileOutputStream to write updates using the same path
             wb.write(output_file);                                     // Write changes
