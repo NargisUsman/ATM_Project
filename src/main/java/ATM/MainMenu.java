@@ -33,7 +33,8 @@ public class MainMenu {
             case 1:
                 //call Deposit Method
 //                    DepositClass.deposit(clientNum);
-                System.out.println("DepositClass.deposit(clientNum)");
+                //System.out.println("DepositClass.deposit(clientNum)");
+                DepositMenu.depositMenu();
                 break;
             case 2:
                 //call Withdraw Method
