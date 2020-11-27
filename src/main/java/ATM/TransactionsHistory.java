@@ -3,6 +3,12 @@ package ATM;
 public class TransactionsHistory {
 
     public static void transactions(int clientNum) {
+
+        /**
+         * Create a List variable to collect data after every performed transaction during the client session
+         * Print the created list if the client asked during the Exit step
+         * Clear data for new customer
+         */
         System.out.println(
                 "Transactions Receipt for " + DataBase.readExcelFile(clientNum, 3) +
                 "\nSavings account:\n" +

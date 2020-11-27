@@ -18,7 +18,7 @@ public class WelcomeScreen {
                    Please enter card number""");
 
         disableWarning();
-        String cardNum = InputValidation.inputValidation();
+        String cardNum = InputValidation.inputValidationFourDigits();
 
         for (int i = 1; i <= DataBase.lengthOfList(); i++) {
             if (cardNum.equals(DataBase.readExcelFile(i, 0))) {
