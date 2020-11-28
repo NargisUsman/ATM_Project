@@ -4,7 +4,7 @@ public class TransactionsHistory {
 
     public static void transactions(int clientNum) {
         System.out.println(
-                "Transactions Receipt for " + DataBase.readExcelFile(clientNum, 3) +
+                "Transactions Receipt for " + DataBase.readExcelFile(0, clientNum, 3) +
                 "\nSavings account:\n" +
                 "Deposited - $320\n" +
                 "Balance:\n" +

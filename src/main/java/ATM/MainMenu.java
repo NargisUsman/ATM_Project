@@ -11,16 +11,15 @@ public class MainMenu {
 
     public static void menu(int clientNum) {
 
-        //Client client = new Client();
-        //???how to pass information about client???
-
-        System.out.println("\t-= Main Menu =-\n" +
-                "Choose from the following:\n" +
-                "1. Deposit\n" +
-                "2. Withdraw\n" +
-                "3. Transfer\n" +
-                "4. Balance\n" +
-                "5. Exit");
+        System.out.println("""
+                
+                     -= Main Menu =-
+                Choose from the following:
+                1. Deposit
+                2. Withdraw
+                3. Transfer
+                4. Balance
+                5. Exit""");
 
         options(clientNum);
     }
@@ -38,8 +37,8 @@ public class MainMenu {
                 break;
             case 2:
                 //call Withdraw Method
-//                    WithdrawClass.deposit(clientNum);
-                System.out.println("WithdrawClass.deposit(clientNum)");
+                    Withdraw.menu(clientNum, false);
+                //System.out.println("WithdrawClass.deposit(clientNum)");
                 break;
             case 3:
                 //call Transfer Method

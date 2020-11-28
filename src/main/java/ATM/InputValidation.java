@@ -4,34 +4,26 @@ import java.util.Scanner;
 
 public class InputValidation {
 
-    public static int inputValidationInt() {
+    public static String inputValidationFourDigits() {
 
         Scanner sc = new Scanner(System.in);
-        int number = 0;
-        do {
-            while (!sc.hasNextInt() && number <= 0) {
-            System.out.println("Incorrect input!\n" +
-                               "Please try again");
-                sc.next();
-            }
-            number = sc.nextInt();
-        } while (number <= 0);
-        return number;
+
+        while (!sc.hasNext("[0-9]{4}")) {
+            System.out.println("That's not a correct input!");
+            sc.next();
+        }
+        return sc.next();
     }
 
-    public static String inputValidationStr() {
 
-        String str = "";
+    public static String inputValidationStrYorN() {
+
         Scanner sc = new Scanner(System.in);
 
-        do {
-            while (sc.hasNext("[0-9]")) {
-                System.out.println("Incorrect input!\n" +
-                                   "Please try again");
-                sc.nextLine();
-            }
-            str = sc.nextLine();
-        } while (str.isEmpty());
-        return str;
+        while (!sc.hasNext("[YyNn]{1}")) {
+            System.out.println("That's not a correct input!");
+            sc.next();
+        }
+        return sc.next();
     }
 }
