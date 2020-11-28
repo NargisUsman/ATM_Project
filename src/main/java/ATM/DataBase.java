@@ -11,7 +11,6 @@ import java.io.IOException;
 
 public class DataBase {
 
-    //private final static String path = "/Users/ray/Documents/git/ATM_Project/src/main/DataBase/ClientDataBase.xlsx";
     private final static String path = "./src/main/DataBase/ClientDataBase.xlsx";
 
     public static String readExcelFile(int sheet, int row, int column) {
