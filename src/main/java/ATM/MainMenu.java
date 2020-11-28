@@ -36,7 +36,7 @@ public class MainMenu {
                 break;
             case 2:
                 //call Withdraw Method
-                    Withdraw.menu(clientNum);
+                    Withdraw.menu(clientNum, false);
                 //System.out.println("WithdrawClass.deposit(clientNum)");
                 break;
             case 3:
