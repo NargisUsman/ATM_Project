@@ -50,7 +50,7 @@ public class WelcomeScreen {
                         "Remaining attempts: " + (i-1));
                 if (i == 1) {
                     System.out.println("Account is blocked - call the office\n\n\n");
-                    DataBase.writeExcelFile("1", clientNum, 1);
+                    DataBase.writeExcelFile(1, clientNum, 1); // instead of string it should be int
                     break;
                 }
             }

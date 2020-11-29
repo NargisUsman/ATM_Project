@@ -86,7 +86,7 @@ public class DataBase {
         }
     }
 
-    public static void writeExcelFile(String strVal, int row, int column) {
+    public static void writeExcelFile(int sheet, String strVal, int row, int column) {
 
         try {
             File src = new File(path);                                 // Creating a File object to declare the path

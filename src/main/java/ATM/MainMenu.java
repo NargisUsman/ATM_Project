@@ -31,8 +31,8 @@ public class MainMenu {
         switch (choice) {
             case 1:
                 //call Deposit Method
-//                    DepositClass.deposit(clientNum);
-                System.out.println("DepositClass.deposit(clientNum)");
+                DepositMenu.depositMenu(clientNum);
+                //System.out.println("DepositClass.deposit(clientNum)");
                 break;
             case 2:
                 //call Withdraw Method
@@ -41,7 +41,7 @@ public class MainMenu {
                 break;
             case 3:
                 //call Transfer Method
-//                    TransferClass.deposit(clientNum);
+                    TransferMenu.transferMenu(clientNum);
                 System.out.println("TransferClass.deposit(clientNum)");
                 break;
             case 4:

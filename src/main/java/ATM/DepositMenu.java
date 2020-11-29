@@ -2,101 +2,108 @@ package ATM;
 
 import java.util.Scanner;
 
+
 public class DepositMenu {
+
+    public enum accountType {
+        ACCOUNT_CHECKING,
+        ACCOUNT_SAVINGS,
+        ACCOUNT_MONEY_MARKET
+    };
+
+    int amt = 0;
+    double balance;
 
     /**
      * Create methods for Deposit Menu that will give the customer account options, deposit options and
-     *  will print transaction history.
+     * will print transaction history.
      */
 
-    private int accounts;     //this might be incorrect I might need String type
-    int balance = 0;
-
-    public void depositMenu(){
+    public static void depositMenu(int clientNum) {
         System.out.println("Choose which account to deposit?\n" +
-                            "1. Checking account\n" +
-                            "2. Savings account\n" +
-                            "3. Money Market\n" +
-                            "4. Back to MM\n" +
-                            "5. Exit");
-    }
+                "1. Checking account\n" +
+                "2. Savings account\n" +
+                "3. Money Market\n" +
+                "4. Back to MM\n" +
+                "5. Exit");
 
-    public void accountOptions(int account) {
-        System.out.println("Which account to deposit?");
+        options(clientNum);
+    }
+    public static void options(int clientNum) {
+        Scanner sc = new Scanner(System.in);
+        int choice = sc.nextInt();
+        accountType type = accountType.ACCOUNT_CHECKING;
+        int numAccountColumn = 0;
+        int accountSheet = 0;
+        switch (choice) {
+            case 1:
+                type = accountType.ACCOUNT_CHECKING;
+                numAccountColumn = 6;
+                accountSheet = 1;
+                break;
+            case 2:
+                type = accountType.ACCOUNT_SAVINGS;
+                numAccountColumn = 5;
+                accountSheet = 2;
+                break;
+            case 3:
+                type = accountType.ACCOUNT_MONEY_MARKET;
+                numAccountColumn = 4;
+                accountSheet = 3;
+                break;
+            case 4:
+                MainMenu.menu(clientNum);
+                break;
+            default:
+                System.out.println("Wrong choice, please try again");
+                MainMenu.menu(clientNum);
+        }
+
+        int numAccounts = Integer.parseInt(DataBase.readExcelFile(0, clientNum, numAccountColumn));
+        System.out.println("NumAccounts: " + numAccounts);
+        int accNum[] = new int[numAccounts];
+        int balance[] = new int[numAccounts];
+        int withdarawl[] = new int[numAccounts];
+        for (int i = 0; i < numAccounts; i++) {
+            String accDetails[] = DataBase.readExcelFile(accountSheet, i + 1, clientNum).split("#");
+            accNum[i] = Integer.parseInt(accDetails[0]);
+            balance[i] = Integer.parseInt(accDetails[1]);
+            withdarawl[i] = Integer.parseInt(accDetails[2]);
+            System.out.println(i + 1 + ". " + accNum[i]);
+        }
+        System.out.print("Select Account: ");
+
+        choice = sc.nextInt() - 1;  // Ash will let me know what is the(-) for
+        System.out.println("Selected Account: " + accNum[choice] + ", balance: " + balance[choice]);
+
+        System.out.println("How do you like to deposit?\n1.Cash\n2.Check");
         Scanner scan = new Scanner(System.in);
-        int i = scan.nextInt();
-        if(account>1) {
-            switch(accounts) {                                   // if customer has more than one account he will choose
-                case 1:
-                    //Account #1
-                    System.out.println("Please enter the amount");
-                    break;
-                case 2:
-                    //Account #2
-                    System.out.println("Please enter the amount $");
-                    break;
-                default:
-                    //Entered invalid account number
-                    System.out.println("You entered invalid account number, please try again");
-                    break;
-            }
+        int depositChoice = scan.nextInt();
+        if (depositChoice == 1) {
+            System.out.println("Enter the amount");
+            int amt = scan.nextInt();
+            balance[choice] += amt;
+            String accDetailsStr = accNum[choice] + "#" + balance[choice] + "#" + withdarawl[choice];
+            DataBase.writeExcelFile(accountSheet, accDetailsStr, choice + 1, clientNum);
+            System.out.println("Deposit Successful! Amount deposited: " + amt + ", balance: " + balance[choice]);
         } else {
-            System.out.println("Enter the amount");             // here I might need to link it to depositOption method
-            depositOptions("cash", "check");         // if customer will deposit cash/check
+            System.out.println("Enter the check number");
+            // Ask Dmitrii to create check number on DataBase
+            int checkNum = scan.nextInt();
+            System.out.println("Enter the amount");
+            int amt = scan.nextInt();
+            balance[choice] += amt;
+            String accDetailsStr = accNum[choice] + "#" + balance[choice] + "#" + withdarawl[choice];
+            DataBase.writeExcelFile(accountSheet, accDetailsStr, choice + 1, clientNum);
+            System.out.println("Deposit Successful! Amount deposited: " + amt + ", balance: " + balance[choice]);
+
         }
     }
-
-    public void depositOptions(String cash, String check) {
-        System.out.println("How do you want to deposit?");
-        Scanner scan = new Scanner(System.in);
-        String scanner = scan.nextLine();                  //Maybe I should create ArrayList
-        String[] depositOptions = new String[1];           // I used string arr to store the deposit options so that way
-        depositOptions[0]="Cash";                          // I can use it as option to the customer
-        depositOptions[1]="Check";
-        if(scanner==depositOptions[0]) {
-            System.out.println("Please enter the amount");
-        } else if(scanner==depositOptions[1]) {
-            System.out.println("Please enter the check number");  // Here I think I need another option/code for check number
-        }
-
-
-    }
-
-    public void cashDeposit(double amount) {
-        System.out.println("Please enter the amount");
-        Scanner scan = new Scanner(System.in);
-        scan.nextInt();
-
-        if(amount!=0) {
-            balance+=amount;
-            System.out.println("Amount $" + amount + "deposited successfully");
-            System.out.println("Total balance" + balance);
-        } else {
-            System.out.println("Invalid amount entered" + amount);
-        }
-    }
-
-    public void checkDeposit(double amount) {
-        System.out.println("Please enter the check number");
-        Scanner scan = new Scanner(System.in);
-        scan.nextInt();
-
-        if(amount!=0) {
-            balance+=amount;
-            System.out.println("Check deposited successfully");
-            System.out.println("Total balance" + balance);
-        } else {
-            System.out.println("Invalid check number entered");
-        }
-    }
-
-    public void printReceipt() {
-        System.out.println("Do you want to print the transaction history?");
-        Scanner scan = new Scanner(System.in);
-        String msg = scan.nextLine();                             //I need input (not sure) boolean type or String type
-    }
-
-
-
 
 }
+
+
+
+
+
+
