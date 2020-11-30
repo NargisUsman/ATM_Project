@@ -1,5 +1,6 @@
 package ATM;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class InputValidation {
@@ -15,7 +16,6 @@ public class InputValidation {
         return sc.next();
     }
 
-
     public static String inputValidationStrYorN() {
 
         Scanner sc = new Scanner(System.in);
@@ -25,5 +25,18 @@ public class InputValidation {
             sc.next();
         }
         return sc.next();
+    }
+
+    public static int inputValidationMenu(int clientNum) {
+
+        int choice = 0;
+        Scanner sc = new Scanner(System.in);
+        try {
+            choice =sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Wrong input, please try again");
+            MainMenu.options(clientNum);
+        }
+        return choice;
     }
 }

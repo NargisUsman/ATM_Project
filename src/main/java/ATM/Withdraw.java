@@ -2,7 +2,7 @@ package ATM;
 
 import java.util.Scanner;
 
-public class Withdraw {
+public class Withdraw extends TransactionsHistory {
     public enum accountType {
         ACCOUNT_CHECKING,
         ACCOUNT_SAVINGS,
@@ -10,17 +10,16 @@ public class Withdraw {
     };
     static int [] bills = new int[]{ 100, 50, 20, 10, 5, 1};
 
-    double balance;
-    double amount;
-
-
     public static void menu(int clientNum, boolean feeWithDrawal) {
         String title = "Withdraw Menu";
-        if (feeWithDrawal)
+        String titlePrompt = "Choose from the following:\n";
+        if (feeWithDrawal) {
             title = "Fee Withdraw Menu";
+            titlePrompt = "Choose from the following for deducting the fees:\n";
+        }
 
         System.out.println("\t-= " + title + " =-\n" +
-                "Choose from the following:\n" +
+                "" + titlePrompt +
                 "1. Checking\n" +
                 "2. Savings\n" +
                 "3. Money Market\n" +
@@ -36,6 +35,7 @@ public class Withdraw {
         accountType type = accountType.ACCOUNT_CHECKING;
         int numAccountColumn = 0;
         int accountSheet = 0;
+        boolean userConsentForFee = false;
 
         switch (choice) {
             case 1:
@@ -43,14 +43,12 @@ public class Withdraw {
                 type = accountType.ACCOUNT_CHECKING;
                 numAccountColumn = 6;
                 accountSheet = 1;
-                //WithDrawMethods.CheckingAcc(clientNum);
                 break;
             case 2:
                 // Savings
                 type = accountType.ACCOUNT_SAVINGS;
                 numAccountColumn = 5;
                 accountSheet = 2;
-                //WithDrawMethods.SavingsAcc(clientNum);
                 break;
             case 3:
                 // Money Market
@@ -70,47 +68,73 @@ public class Withdraw {
         System.out.println("NumAccounts: " + numAccounts);
         int accNum[] = new int[numAccounts];
         int balance[] = new int[numAccounts];
-        int withdrawals[] = new int[numAccounts];
+        int allowableWithdrawals[] = new int[numAccounts];
         for (int i = 0; i < numAccounts; i++) {
             String accDetails[] = DataBase.readExcelFile(accountSheet, i + 1, clientNum).split("#");
             accNum[i] = Integer.parseInt(accDetails[0]);
             balance[i] = Integer.parseInt(accDetails[1]);
-            withdrawals[i] = Integer.parseInt(accDetails[2]);
-            System.out.println(i+ 1 + ". " + accNum[i]);
+            allowableWithdrawals[i] = Integer.parseInt(accDetails[2]);
+            System.out.println((i + 1) + ". " + accNum[i]);
         }
         System.out.print("Select Account: ");
 
         choice = sc.nextInt() - 1;
         System.out.println("Selected Account: " + accNum[choice] + ", balance: " + balance[choice]);
 
-        int amt = 2;
+        int amt = 0;
         if (!feeWithDrawal) {
             System.out.print("Enter the amount to withdraw: ");
             amt = sc.nextInt();
+        } else {
+            // Fee withdrawal. No need to ask user.
+            // Amount to withdraw is 2 USD
+            amt = 2;
         }
 
         if (amt > balance[choice]) {
             System.out.println("Insufficient funds!");
             return;
         }
+        if(amt < 0){
+                System.out.println("Invalid Input");
+                return;
+        }
 
         if (!feeWithDrawal && type == accountType.ACCOUNT_SAVINGS &&
-            withdrawals[choice] >= 6) {
-            System.out.println("There will be a fee of 2$ for withdrawal!");
-            menu(clientNum, true);
-
+                allowableWithdrawals[choice] == 0) {
+            System.out.println("There will be a fee of $2 for this withdrawal! Do you want to continue? Y or N");
+            sc.nextLine();
+            if (!sc.nextLine().equalsIgnoreCase("y")) {
+                System.out.println("User aborted transaction, returning!");
+                return;
+            }
+            userConsentForFee = true;
         }
 
         balance[choice] -= amt;
-        if (!feeWithDrawal)
-            withdrawals[choice]++;
+        if (!feeWithDrawal) {
+            if (allowableWithdrawals[choice] > 0)
+                allowableWithdrawals[choice]--;
+        }
 
-        String accDetailsStr = accNum[choice] + "#" + balance[choice] + "#" + withdrawals[choice];
+        String accDetailsStr = accNum[choice] + "#" + balance[choice] + "#" + allowableWithdrawals[choice];
         DataBase.writeExcelFile(accountSheet, accDetailsStr, choice + 1, clientNum);
-        System.out.println("Withdrawal Successful! Amount WithDrawn: " + amt + ",balance: " + balance[choice]);
 
-        if (feeWithDrawal)
+        sList.add("Account #" + accNum[choice] + " - amount of withdrawal: $" + amt + "check: #" + " current balance: $" + balance[choice] + "\n");
+
+
+        if (!feeWithDrawal && userConsentForFee) {
+            // Call menu() and option() once again to deduct the fees.
+            menu(clientNum, true);
+        }
+
+        if (feeWithDrawal) {
+            System.out.println("Fee(2 USD) Deducted from Account: ");
             return;
+        } else
+            System.out.println("Withdrawal Successful from Account: " + accNum[choice] +
+                    ", Amount WithDrawn: " + amt + ",balance: " + balance[choice]);
+
 
         int numBills[] = new int[bills.length];
         int tmpAmt = amt;
@@ -123,6 +147,14 @@ public class Withdraw {
             if (numBills[i] == 0)
                 continue;
             System.out.println(bills[i] + " : " + numBills[i]);
+        }
+
+        System.out.println("Are you done or do you like to go back to Main Menu?\n1. Main Menu\n2. Exit");
+        int x = sc.nextInt();
+        if(x == 1) {
+            MainMenu.menu(clientNum);
+        } else {
+            Exit.exit(clientNum);
         }
     }
 

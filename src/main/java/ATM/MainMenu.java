@@ -1,5 +1,6 @@
 package ATM;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MainMenu {
@@ -26,34 +27,37 @@ public class MainMenu {
 
     public static void options(int clientNum) {
 
-        Scanner sc = new Scanner(System.in);
-        int choice = sc.nextInt();
+
+    int choice = InputValidation.inputValidationMenu(clientNum);
+
         switch (choice) {
             case 1:
                 //call Deposit Method
                 DepositMenu.depositMenu(clientNum);
-                //System.out.println("DepositClass.deposit(clientNum)");
                 break;
             case 2:
                 //call Withdraw Method
-                    Withdraw.menu(clientNum, false);
-                //System.out.println("WithdrawClass.deposit(clientNum)");
+                Withdraw.menu(clientNum, false);
                 break;
             case 3:
                 //call Transfer Method
-                    TransferMenu.transferMenu(clientNum);
-                System.out.println("TransferClass.deposit(clientNum)");
+                TransferMenu.transferMenu(clientNum);
                 break;
             case 4:
                 //call Balance Method
-//                    BalanceClass.deposit(clientNum);
-                System.out.println("BalanceClass.deposit(clientNum)");
+                //BalanceClass.menu(clientNum);
+                System.out.println("We are working on this feature and it will be here soon");
+                System.out.println("Thank you for your interest");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                MainMenu.menu(clientNum);
                 break;
             case 5:
                 //call Exit Method
-//                    ExitClass.deposit(clientNum);
                 Exit.exit(clientNum);
-                //System.out.println("ExitClass.deposit(clientNum)");
                 break;
             default:
                 System.out.println("Wrong input, please try again");

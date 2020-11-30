@@ -24,6 +24,7 @@ public class WelcomeScreen {
             if (cardNum.equals(DataBase.readExcelFile(0, i, 0))) {
                 if (DataBase.readExcelFile(0, i, 1).equals("0")) {
                     if (isPinCorrect(i)) {
+                        TransactionsHistory.clearData();
                         MainMenu.menu(i);
                     }
                 } else {
@@ -50,7 +51,7 @@ public class WelcomeScreen {
                         "Remaining attempts: " + (i-1));
                 if (i == 1) {
                     System.out.println("Account is blocked - call the office\n\n\n");
-                    DataBase.writeExcelFile(1, clientNum, 1); // instead of string it should be int
+                    DataBase.writeExcelFile(0,"1", clientNum, 1); // instead of string it should be int
                     break;
                 }
             }
