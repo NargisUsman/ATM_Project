@@ -30,6 +30,7 @@ public class WelcomeScreen {
                 } else {
                     System.out.println( "Your account is blocked\n" +
                                         "Please call the office\n\n\n");
+
                 }
             }
         }
@@ -52,7 +53,7 @@ public class WelcomeScreen {
                 if (i == 1) {
                     System.out.println("Account is blocked - call the office\n\n\n");
                     DataBase.writeExcelFile(0,"1", clientNum, 1); // instead of string it should be int
-                    break;
+                    WelcomeScreen();
                 }
             }
         }

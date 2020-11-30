@@ -16,7 +16,7 @@ public class Exit extends TransactionsHistory {
                 "Would you like your receipt : Y/N");
         if (InputValidation.inputValidationStrYorN().equalsIgnoreCase("Y")) {
             System.out.println("\n\nReceipt for " + DataBase.readExcelFile(0, clientNum, 3));
-            System.out.println(cList);
+
             if (!cList.isEmpty()) {
                  chlist = Arrays.toString(cList.toArray()).replace(", ", "").replace("[", "").replace("]", "");
             } else {

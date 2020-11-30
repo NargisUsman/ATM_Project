@@ -54,7 +54,8 @@ public class DepositMenu extends TransactionsHistory {
         }
 
         int numAccounts = Integer.parseInt(DataBase.readExcelFile(0, clientNum, numAccountColumn));
-        System.out.println("NumAccounts: " + numAccounts);
+        System.out.println("You have " + numAccounts + " account(s)");
+        System.out.println("Select an account: ");
         int accNum[] = new int[numAccounts];
         int balance[] = new int[numAccounts];
         int withdraw[] = new int[numAccounts];
@@ -65,7 +66,6 @@ public class DepositMenu extends TransactionsHistory {
             withdraw[i] = Integer.parseInt(accDetails[2]);
             System.out.println(i + 1 + ". " + accNum[i]);
         }
-        System.out.print("Select Account: ");
 
         choice = sc.nextInt() - 1;  // Ash will let me know what is the(-) for
         System.out.println("Selected Account: " + accNum[choice] + ", balance: " + balance[choice]);
@@ -89,13 +89,13 @@ public class DepositMenu extends TransactionsHistory {
 
             switch (th) {
                 case 1:
-                    cList.add("Account #" + accNum[choice] + " - amount deposited: $" + amt + " current balance: $" + balance[choice] + "\n");
+                    cList.add("Account #" + accNum[choice] + " - amount deposited: $" + amt + " balance: $" + balance[choice] + "\n");
                     break;
                 case 2:
-                    sList.add("Account #" + accNum[choice] + " - amount deposited: $" + amt + " current balance: $" + balance[choice] + "\n");
+                    sList.add("Account #" + accNum[choice] + " - amount deposited: $" + amt + " balance: $" + balance[choice] + "\n");
                     break;
                 case 3:
-                    mmList.add("Account #" + accNum[choice] + " - amount deposited: $" + amt + " current balance: $" + balance[choice] + "\n");
+                    mmList.add("Account #" + accNum[choice] + " - amount deposited: $" + amt + " balance: $" + balance[choice] + "\n");
                     break;
             }
 
@@ -119,13 +119,13 @@ public class DepositMenu extends TransactionsHistory {
 
             switch (th) {
                 case 1:
-                    cList.add("Account #" + accNum[choice] + " - amount deposited: $" + amt + " check: #" + checkNum + " current balance: $" + balance[choice] + "\n");
+                    cList.add("Account #" + accNum[choice] + " - amount deposited: $" + amt + " check: #" + checkNum + " balance: $" + balance[choice] + "\n");
                     break;
                 case 2:
-                    sList.add("Account #" + accNum[choice] + " - amount deposited: $" + amt + " check: #" + checkNum + " current balance: $" + balance[choice] + "\n");
+                    sList.add("Account #" + accNum[choice] + " - amount deposited: $" + amt + " check: #" + checkNum + " balance: $" + balance[choice] + "\n");
                     break;
                 case 3:
-                    mmList.add("Account #" + accNum[choice] + " - amount deposited: $" + amt + " check: #" + checkNum + " current balance: $" + balance[choice] + "\n");
+                    mmList.add("Account #" + accNum[choice] + " - amount deposited: $" + amt + " check: #" + checkNum + " balance: $" + balance[choice] + "\n");
                     break;
             }
 

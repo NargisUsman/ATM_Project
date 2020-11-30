@@ -32,6 +32,7 @@ public class Withdraw extends TransactionsHistory {
 
         Scanner sc = new Scanner(System.in);
         int choice = sc.nextInt();
+        int th = choice;
         accountType type = accountType.ACCOUNT_CHECKING;
         int numAccountColumn = 0;
         int accountSheet = 0;
@@ -120,8 +121,17 @@ public class Withdraw extends TransactionsHistory {
         String accDetailsStr = accNum[choice] + "#" + balance[choice] + "#" + allowableWithdrawals[choice];
         DataBase.writeExcelFile(accountSheet, accDetailsStr, choice + 1, clientNum);
 
-        sList.add("Account #" + accNum[choice] + " - amount of withdrawal: $" + amt + "check: #" + " current balance: $" + balance[choice] + "\n");
-
+        switch (th) {
+            case 1:
+                cList.add("Account #" + accNum[choice] + " - amount withdrawn: $" + amt + " balance: $" + balance[choice] + "\n");
+                break;
+            case 2:
+                sList.add("Account #" + accNum[choice] + " - amount withdrawn: $" + amt + " balance: $" + balance[choice] + "\n");
+                break;
+            case 3:
+                mmList.add("Account #" + accNum[choice] + " - amount withdrawn: $" + amt + " balance: $" + balance[choice] + "\n");
+                break;
+        }
 
         if (!feeWithDrawal && userConsentForFee) {
             // Call menu() and option() once again to deduct the fees.
@@ -133,7 +143,7 @@ public class Withdraw extends TransactionsHistory {
             return;
         } else
             System.out.println("Withdrawal Successful from Account: " + accNum[choice] +
-                    ", Amount WithDrawn: " + amt + ",balance: " + balance[choice]);
+                    ", Amount Withdrawn: " + amt + ",balance: " + balance[choice]);
 
 
         int numBills[] = new int[bills.length];
