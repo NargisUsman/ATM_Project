@@ -89,7 +89,7 @@ public class TransferMenu {
         int balance[] = new int[numAccounts];
         int withdarawl[] = new int[numAccounts];
         for (int i = 0; i < numAccounts; i++) {
-            String accDetails[] = DataBase.readExcelFile(accountSheet, i + 1, clientNum).split("#");
+            String accDetails[] = DataBase.readExcelFile(transTo, i + 1, clientNum).split("#");
             accNum[i] = Integer.parseInt(accDetails[0]);
             balance[i] = Integer.parseInt(accDetails[1]);
             withdarawl[i] = Integer.parseInt(accDetails[2]);
